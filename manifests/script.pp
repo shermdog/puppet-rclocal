@@ -21,7 +21,6 @@ define rclocal::script (
   require rclocal::params
 
   $safe_name = regsubst($name, '/', '_', 'G')
-  $bool_autoexec = any2bool($autoexec)
 
   file { "rclocal_${priority}_${safe_name}":
     path    => "${rclocal::params::configdir}/${priority}-${safe_name}",
@@ -32,7 +31,7 @@ define rclocal::script (
     content => $content,
   }
 
-  if $bool_autoexec == true {
+  if $autoexec == true {
     exec { "rclocal_${priority}_${safe_name}":
       command     => "sh ${rclocal::params::configdir}/${priority}-${safe_name}",
       refreshonly => true,
@@ -41,4 +40,5 @@ define rclocal::script (
     }
   }
 }
+
 
